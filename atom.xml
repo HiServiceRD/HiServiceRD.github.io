@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[海斯维思研发团队]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://hiservicerd.github.io/"/>
+  <updated>2014-05-14T09:24:19.991Z</updated>
+  <id>http://hiservicerd.github.io/</id>
+  
+  <author>
+    <name><![CDATA[HiServiceRD]]></name>
+    <email><![CDATA[lingyucoder@gmail.com]]></email>
+  </author>
+  
+  <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[我们是海斯维思研发团队]]></title>
+    <link href="http://hiservicerd.github.io/2014/05/13/who-are-we/"/>
+    <id>http://hiservicerd.github.io/2014/05/13/who-are-we/</id>
+    <published>2014-05-13T15:48:01.000Z</published>
+    <updated>2014-05-14T08:18:54.000Z</updated>
+    <content type="html"><![CDATA[<p>北京海斯维思信息科技有限公司是一家提供IT综合服务的高科技企业，业务涵盖：IT产品化服务、应用软件开发、系统集成等。一直以为中国中、小企业提升IT核心竞争力为使命，以坚实的技术实力、对客户业务的良好理解以及高效的实施队伍，为行业客户、企业集团提供面向业务的解决方案、定制化和产品化的专业IT服务。而我们，是海斯维思信息科技有限公司的研发团队</p>
+]]></content>
+    
+    
+  </entry>
+  
+</feed>
