@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta content="article" property="og:type">
 <meta content="jQuery的核心方法和类型判断" property="og:title">
-<meta content="http://yoursite.com/2014/05/13/hello-world/" property="og:url">
+<meta content="http://localhost:4000/2014/05/13/hello-world/" property="og:url">
 <meta property="og:image">
 <meta content="海斯维思研发团队" property="og:site_name">
 <meta content="一些方法的缓存
@@ -74,7 +74,7 @@
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://localhost:4000"></form>
       </div>
     </div>
   </div>
@@ -1204,7 +1204,19 @@ support: support
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/13/hello-world/" data-id="vdtw2eflq657wg7u" class="article-share-link">Share</a>
+      <div class="jiathis_style">
+        <a class="jiathis_button_qzone"></a>
+        <a class="jiathis_button_tsina"></a>
+        <a class="jiathis_button_tqq"></a>
+        <a class="jiathis_button_weixin"></a>
+        <a class="jiathis_button_renren"></a>
+        <a class="jiathis_button_xiaoyou"></a>
+        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+        <a class="jiathis_counter_style"></a>
+      </div>
+      <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1394026832027748" charset="utf-8"></script>
+      
+        <a href="http://localhost:4000/2014/05/13/hello-world/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -1214,6 +1226,12 @@ support: support
   
 </article>
 
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -1269,6 +1287,20 @@ support: support
   
 </nav>
     
+<script>
+  var disqus_shortname = 'hiservicerd';
+  
+  var disqus_url = 'http://localhost:4000/2014/05/13/hello-world/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
