@@ -3,14 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>海斯维思研发团队</title>
+  <title>jQuery中的异步控制 | 海斯维思研发团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="website" property="og:type">
-<meta content="海斯维思研发团队" property="og:title">
-<meta content="http://hiservicerd.github.io/" property="og:url">
-<meta property="og:image">
+  <meta content="article" property="og:type">
+<meta content="jQuery中的异步控制" property="og:title">
+<meta content="http://hiservicerd.github.io/2014/05/17/jquery-source-promise/" property="og:url">
+<meta content="/img/jquery-source-promise/jQuery.jpg" property="og:image">
 <meta content="海斯维思研发团队" property="og:site_name">
-<meta property="og:description">
+<meta content="简介
+jQuery中使用Deferred进行异步控制，其亦提供promise方法获取Promise对象，但实现上和其他的Promise的实现并不相同。Deferred/Promise对象的核心实现为三个回调函数队列，分别保存正确（done）、错误（fail）、进行中（progress）三个回调函数列表，它们都是jQuery.Callbacks实例
+jQuery.Callbacks
+这是回调函数列" property="og:description">
 <meta content="summary" name="twitter:card">
   
     <link rel="alternative" href="/atom.xml" title="海斯维思研发团队" type="application/atom+xml">
@@ -71,9 +74,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-jquery-source-promise" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-jquery-source-promise" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/05/17/jquery-source-promise/" class="article-date">
   <time datetime="2014-05-17T07:23:00.000Z" itemprop="datePublished">5月 17 2014</time>
@@ -90,8 +91,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/05/17/jquery-source-promise/">jQuery中的异步控制</a>
+    <h1 class="article-title" itemprop="name">
+      jQuery中的异步控制
     </h1>
   
 
@@ -907,60 +908,26 @@ promise.promise( deferred );
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-who-are-we" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/05/13/who-are-we/" class="article-date">
-  <time datetime="2014-05-13T15:48:01.000Z" itemprop="datePublished">5月 13 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/05/13/who-are-we/">我们是海斯维思研发团队</a>
-    </h1>
+    <a href="/2014/05/13/who-are-we/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">我们是海斯维思研发团队</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>北京海斯维思信息科技有限公司是一家提供IT综合服务的高科技企业，业务涵盖：IT产品化服务、应用软件开发、系统集成等。一直以为中国中、小企业提升IT核心竞争力为使命，以坚实的技术实力、对客户业务的良好理解以及高效的实施队伍，为行业客户、企业集团提供面向业务的解决方案、定制化和产品化的专业IT服务。而我们，是海斯维思信息科技有限公司的研发团队</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a href="http://hiservicerd.github.io/2014/05/13/who-are-we/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-      <div class="jiathis_style">
-        <a class="jiathis_button_qzone"></a>
-        <a class="jiathis_button_tsina"></a>
-        <a class="jiathis_button_tqq"></a>
-        <a class="jiathis_button_weixin"></a>
-        <a class="jiathis_button_renren"></a>
-        <a class="jiathis_button_xiaoyou"></a>
-        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-        <a class="jiathis_counter_style"></a>
-      </div>
-      <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1394026832027748" charset="utf-8"></script>
-    </footer>
-  </div>
   
 </article>
 
 
-  
-  
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -1046,11 +1013,13 @@ promise.promise( deferred );
 <script>
   var disqus_shortname = 'hiservicerd';
   
+  var disqus_url = 'http://hiservicerd.github.io/2014/05/17/jquery-source-promise/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//go.disqus.com/count.js';
+    dsq.src = '//go.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>

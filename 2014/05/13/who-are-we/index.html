@@ -22,6 +22,18 @@
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-51090540-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
 </head>
 <body>
   <div id="container">
@@ -39,9 +51,11 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="/">首页</a>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <a class="main-nav-link" href="/archives">文章</a>
+        
+          <a class="main-nav-link" href="https://github.com/HiServiceRD">GIT</a>
         
       </nav>
       <nav id="sub-nav">
@@ -84,6 +98,10 @@
       
     </div>
     <footer class="article-footer">
+      
+        <a href="http://hiservicerd.github.io/2014/05/13/who-are-we/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
       <div class="jiathis_style">
         <a class="jiathis_button_qzone"></a>
         <a class="jiathis_button_tsina"></a>
@@ -95,14 +113,24 @@
         <a class="jiathis_counter_style"></a>
       </div>
       <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1394026832027748" charset="utf-8"></script>
-      
-        <a href="http://hiservicerd.github.io/2014/05/13/who-are-we/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2014/05/17/jquery-source-promise/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          jQuery中的异步控制
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
   
 </article>
 
@@ -117,16 +145,37 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JavaScript/" style="font-size: NaNpx;">JavaScript</a><a href="/tags/jQuery/" style="font-size: NaNpx;">jQuery</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -136,6 +185,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/05/17/jquery-source-promise/">jQuery中的异步控制</a>
+          </li>
         
           <li>
             <a href="/2014/05/13/who-are-we/">我们是海斯维思研发团队</a>
@@ -161,9 +214,11 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="/" class="mobile-nav-link">首页</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="https://github.com/HiServiceRD" class="mobile-nav-link">GIT</a>
   
 </nav>
     
