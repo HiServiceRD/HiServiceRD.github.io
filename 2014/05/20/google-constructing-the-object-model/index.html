@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>构建对象模型 | 海斯维思研发团队</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta content="article" property="og:type">
+<meta content="构建对象模型" property="og:title">
+<meta content="http://hiservicerd.github.io/2014/05/20/google-constructing-the-object-model/" property="og:url">
+<meta content="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" property="og:image">
+<meta content="海斯维思研发团队" property="og:site_name">
+<meta content="本文主要介绍了DOM和CSSOM的构建过程，翻译自Google Web Fundamentals
+浏览器渲染页面之前会构建DOM树和CSSOM树
+长话短说
+
+字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)
+HTML标记将会被转化为一个文档对象模型（Document Objectenter code h" property="og:description">
+<meta content="summary" name="twitter:card">
+  
+    <link rel="alternative" href="/atom.xml" title="海斯维思研发团队" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-51090540-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">海斯维思研发团队</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">文章</a>
+        
+          <a class="main-nav-link" href="https://github.com/HiServiceRD">GIT</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://hiservicerd.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-google-constructing-the-object-model" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/05/20/google-constructing-the-object-model/" class="article-date">
+  <time datetime="2014-05-20T08:20:00.000Z" itemprop="datePublished">5月 20 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      构建对象模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要介绍了DOM和CSSOM的构建过程，翻译自<a href="https://developers.google.com/web/fundamentals/documentation/performance/critical-rendering-path/constructing-the-object-model" target="_blank">Google Web Fundamentals</a></p>
+<p>浏览器渲染页面之前会构建DOM树和CSSOM树</p>
+<h2 id="长话短说">长话短说</h2>
+<ul>
+<li>字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)</li>
+<li>HTML标记将会被转化为一个文档对象模型（Document Object<code>enter code here</code> Module，以下简称DOM），而CSS标记将会被转化成一个CSS对象模型（CSSOM）</li>
+<li>DOM和CSSOM是互相独立的数据结构</li>
+<li>Chrome的开发者工具的Timeline里面可以捕捉到DOM和CSSOM的构建和处理</li>
+</ul>
+<h2 id="DOM树构建">DOM树构建</h2>
+<p>比如一段如下HTML</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>其从字节到DOM树的过程如下图所示：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
+<p>具体的过程分为如下几步：</p>
+<ol>
+<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
+<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
+<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
+<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
+</ol>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
+<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
+<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
+<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
+<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
+<h2 id="CSSOM树构建">CSSOM树构建</h2>
+<p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">body</span> <span class="rules">{ <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">16</span>px </span></span></span>}
+<span class="tag">p</span> <span class="rules">{ <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> bold </span></span></span>}
+<span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">color</span>:<span class="value"> red </span></span></span>}
+<span class="tag">p</span> <span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> none </span></span></span>}
+<span class="tag">img</span> <span class="rules">{ <span class="rule"><span class="attribute">float</span>:<span class="value"> right </span></span></span>}
+</pre></td></tr></table></figure>
+
+
+<p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
+<p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/4.png" alt="浏览器将CSS字节转换到CSSOM"></p>
+<p>浏览器将CSS字节转换成字符，然后构建标记和节点，最后练级到一个叫做CSS对象模型（CSSOM）的树型数据结构</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/5.png" alt="树状CSSOM"></p>
+<p>HTML是树状结构很好理解，那么为什么CSSOM也是树状结构呢？在计算页面上对象的需要使用的样式集时，浏览器首先将最常规的样式赋给节点（如果是body元素的孩子，那么会使用body的所有样式），然后递归细化，逐步添加上特殊的规则，这也就是级联样式表中“级联”的意思</p>
+<p>上面的树并不是完整的CSSOM树，目前只是展示了样式表中的样式如何互相覆盖。么一个浏览器都提供了一套自己的样式，也就是“用户代理样式（user agent styles）”，在我们不提供任何样式的时候，就会使用这些央视。如果在Chrome开发者工具里面查看“计算后样式（computed styles）”，可以看到所有节点中样式的来源</p>
+<p>如果想知道CSS处理花费多长时间，可以在开发者工具中记录Timeline，并查看“Resalcuate”事件：与DOM解析不同的是，这里不会分开的“Parse CSS”各个阶段，解析、CSSOM树构建以及样式的递归计算都放在这一个事件之中</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/6.png" alt="通过开发者工具查看样式处理"></p>
+<p>这里可以看到，这次样式处理花费了约0.6ms，涉及页面上的8个元素。那这8个元素从哪儿来？CSSOM和DOM是完全独立的数据结构，浏览器隐藏了很重要的一步，通过渲染树（render tree）将CSSOM和DOM连接起来，下一章就将介绍这个渲染树</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a href="http://hiservicerd.github.io/2014/05/20/google-constructing-the-object-model/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li></ul>
+
+      <div class="jiathis_style">
+        <a class="jiathis_button_qzone"></a>
+        <a class="jiathis_button_tsina"></a>
+        <a class="jiathis_button_tqq"></a>
+        <a class="jiathis_button_weixin"></a>
+        <a class="jiathis_button_renren"></a>
+        <a class="jiathis_button_xiaoyou"></a>
+        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+        <a class="jiathis_counter_style"></a>
+      </div>
+      <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1394026832027748" charset="utf-8"></script>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/05/20/google-render-tree-construction-layout-and-paint/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          渲染树的构建，布局和绘制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/19/google-responsive-design-fundamentals/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">响应式Web设计基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 10.00px;">JavaScript</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/05/20/google-render-tree-construction-layout-and-paint/">渲染树的构建，布局和绘制</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/20/google-constructing-the-object-model/">构建对象模型</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/19/google-responsive-design-fundamentals/">响应式Web设计基础</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/17/jquery-source-promise/">jQuery中的异步控制</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/13/who-are-we/">我们是海斯维思研发团队</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 HiServiceRD<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="https://github.com/HiServiceRD" class="mobile-nav-link">GIT</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'hiservicerd';
+  
+  var disqus_url = 'http://hiservicerd.github.io/2014/05/20/google-constructing-the-object-model/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>
