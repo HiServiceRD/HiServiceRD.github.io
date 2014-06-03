@@ -5,13 +5,16 @@
   
   <title>Tag: jQuery | 海斯维思研发团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="website" property="og:type">
-<meta content="海斯维思研发团队" property="og:title">
-<meta content="http://hiservicerd.github.io/tags/jQuery/" property="og:url">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="海斯维思研发团队">
+<meta property="og:url" content="http://hiservicerd.github.io/tags/jQuery/">
 <meta property="og:image">
-<meta content="海斯维思研发团队" property="og:site_name">
+<meta property="og:site_name" content="海斯维思研发团队">
 <meta property="og:description">
-<meta content="summary" name="twitter:card">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="海斯维思研发团队">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="海斯维思研发团队" type="application/atom+xml">
   
@@ -122,7 +125,6 @@
     jQuery.extend( {}, options );
 </pre></td></tr></table></figure>
 
-
 <p>options可以是字符串，如<code>&quot;once memory&quot;</code>，如果是字符串，就先进行解析并缓存。如果options是对象，那么直接options就是这个对象</p>
 <h3 id="私有变量">私有变量</h3>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
@@ -160,7 +162,6 @@
     <span class="comment">/*如果回调函数列表时多次执行的，那么在运行回调函数列表的过程中，可能会再次触发，这时候就需要一个队列进行等待了*/</span>
     stack = !options.once && [],
 </pre></td></tr></table></figure>
-
 
 <p>这里面都是一些私有变量，没啥太多好说的，官方代码里也对每个变量都写了注释</p>
 <h3 id="触发函数fire">触发函数fire</h3>
@@ -246,14 +247,7 @@
         }
     }
 },
-</pre></td></tr></table></figure>
-
-
-<p>这里可以看到触发回调函数列表的逻辑。触发后，会依次执行列表中的回调函数，这里执行时有一个stopOnFalse设置，如果函数返回false，那么就终止执行。另外在执行过程中，如果又有新的执行请求到来，需要将执行请求放入等待队列之中，等待当前执行中的所有回调函数完成之后再重新执行。当然这个设定对once类型的回调函数列表不起作用</p>
-<h3 id="实例">实例</h3>
-<p>接下来创建了一个self对象，并进行了返回，这是个一个构造函数，说明self是真正返回的实例。看看实例中有哪些方法：</p>
-<h4 id="add">add</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>这里可以看到触发回调函数列表的逻辑。触发后，会依次执行列表中的回调函数，这里执行时有一个stopOnFalse设置，如果函数返回false，那么就终止执行。另外在执行过程中，如果又有新的执行请求到来，需要将执行请求放入等待队列之中，等待当前执行中的所有回调函数完成之后再重新执行。当然这个设定对once类型的回调函数列表不起作用<br><br>###实例<br>接下来创建了一个self对象，并进行了返回，这是个一个构造函数，说明self是真正返回的实例。看看实例中有哪些方法：<br><br>####add<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -317,12 +311,7 @@
     <span class="comment">/*返回this方便链式操作*/</span>
     <span class="keyword">return</span> <span class="keyword">this</span>;
 },
-</pre></td></tr></table></figure>
-
-
-<p>这个方法往回调函数列表中添加新函数，jQuery会非常智能的使用each对参数进行深度遍历来添加所有函数。需要注意的是，如果回调函数列表正在执行，添加之后需要维护长度。另外如果memory中有数据，我们就应该立即执行新添加的回调函数</p>
-<h4 id="remove">remove</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>这个方法往回调函数列表中添加新函数，jQuery会非常智能的使用each对参数进行深度遍历来添加所有函数。需要注意的是，如果回调函数列表正在执行，添加之后需要维护长度。另外如果memory中有数据，我们就应该立即执行新添加的回调函数<br><br>####remove<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -370,27 +359,13 @@
     <span class="comment">/*返回this方便链式操作*/</span>
     <span class="keyword">return</span> <span class="keyword">this</span>;
 },
-</pre></td></tr></table></figure>
-
-
-<p>这里同样使用<code>jQuery.each</code>遍历所有参数，获取其中的函数，通过inArray判定，然后通过splice移除。这里需要注意的是，在回调函数列表正在执行时，删除操作同样需要维护长度，另外还可能需要维护当前正在运行的函数的下标</p>
-<h4 id="has_(fn)">has (fn)</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>这里同样使用<code>jQuery.each</code>遍历所有参数，获取其中的函数，通过inArray判定，然后通过splice移除。这里需要注意的是，在回调函数列表正在执行时，删除操作同样需要维护长度，另外还可能需要维护当前正在运行的函数的下标<br><br>####has (fn)<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre>has: <span class="function"><span class="keyword">function</span><span class="params">( fn )</span> {</span>
     <span class="keyword">return</span> fn ? jQuery.inArray( fn, list ) &gt; -<span class="number">1</span> : !!( list && list.length );
 },
-</pre></td></tr></table></figure>
-
-
-<p>判断一个函数是否在回调函数列表中，分判断函数和判断列表两种情况：</p>
-<ol>
-<li>若有fn，直接用inArray判定</li>
-<li>若无fn，直接判断列表是否有长度不为0的list列表</li>
-</ol>
-<h4 id="empty">empty</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>判断一个函数是否在回调函数列表中，分判断函数和判断列表两种情况：<br>1. 若有fn，直接用inArray判定<br>2. 若无fn，直接判断列表是否有长度不为0的list列表<br><br>####empty<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -400,12 +375,7 @@
     firingLength = <span class="number">0</span>;
     <span class="keyword">return</span> <span class="keyword">this</span>;
 },
-</pre></td></tr></table></figure>
-
-
-<p>清空回调函数列表，没啥好说的…list社为空数组，长度设为0</p>
-<h4 id="disable和disabled">disable和disabled</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>清空回调函数列表，没啥好说的…list社为空数组，长度设为0<br><br>####disable和disabled<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -419,12 +389,7 @@
 disabled: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
     <span class="keyword">return</span> !list;
 },
-</pre></td></tr></table></figure>
-
-
-<p>将回调函数列表设定为无效，实际上就是将list，stack，memory设成undefined，检测无效也很简单，直接通过list判断，没设定无效情况下，list都是数组，其必然是真值</p>
-<h4 id="lock和locked">lock和locked</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>将回调函数列表设定为无效，实际上就是将list，stack，memory设成undefined，检测无效也很简单，直接通过list判断，没设定无效情况下，list都是数组，其必然是真值<br><br>####lock和locked<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -444,12 +409,7 @@ disabled: <span class="function"><span class="keyword">function</span><span clas
 locked: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
     <span class="keyword">return</span> !stack;
 },
-</pre></td></tr></table></figure>
-
-
-<p>lock和locked故名思意就是将回调函数列表锁住，其判定方式是stack是否存在，在once设置下，stack本来就不存在，直接就是locked。而非once情况下，lock函数会设定stack为undefined，这样就无法在回调函数运行时进行fire了，就算锁住了。另外，如果没有memory，说明回调函数执行失败了，直接disbale掉就好</p>
-<h4 id="fireWith和fire">fireWith和fire</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>lock和locked故名思意就是将回调函数列表锁住，其判定方式是stack是否存在，在once设置下，stack本来就不存在，直接就是locked。而非once情况下，lock函数会设定stack为undefined，这样就无法在回调函数运行时进行fire了，就算锁住了。另外，如果没有memory，说明回调函数执行失败了，直接disbale掉就好<br><br>####fireWith和fire<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -495,26 +455,7 @@ fire: <span class="function"><span class="keyword">function</span><span class="p
 fired: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
     <span class="keyword">return</span> !!fired;
 }
-</pre></td></tr></table></figure>
-
-
-<p>这里fire实际上使用fireWith实现的，我们只需要看fireWith就好。这里fireWith将触发回调函数列表的执行，触发条件是：当前回调函数列表有效，且没触发过或可以多次触发（stack存在就是可以多次触发），需要注意的是，如果正在触发，也就是firing状态时，触发请求将会被放入stack中等待</p>
-<p>fired没啥好说的，判断回调函数列表是否被触发过</p>
-<h3 id="小结">小结</h3>
-<p>这个<code>jQuery.Callbacks</code>本质上就是维护一个数组，这个数组中都是函数。一个特点就是可以通过fire方式去挨个执行这些函数，并提供了一些配置来确定执行的过程以及执行的次数。每个Deferred对象将拥有三个Callbacks实例</p>
-<h2 id="Deferred">Deferred</h2>
-<p>jQuery的异步控制使用Deferred/Promise，每一个Deferred对象对应一个Promise对象，首先来看看其构造函数</p>
-<h3 id="构造函数">构造函数</h3>
-<h4 id="三个状态，三个操作，三个列表">三个状态，三个操作，三个列表</h4>
-<p>Deferred有三个状态：</p>
-<ol>
-<li>pending</li>
-<li>resolved</li>
-<li>rejected</li>
-</ol>
-<p>pending状态是最初状态，它等待resolve操作或reject操作，使用resolve操作表示成功，将跳转到resolved状态，而使用reject将跳转到rejected状态，这两个转变是不可逆的。另外在pending状态下可以无限次调用notify操作</p>
-<p>事实上，每个操作对应着一系列的回调函数，看一下定义：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>这里fire实际上使用fireWith实现的，我们只需要看fireWith就好。这里fireWith将触发回调函数列表的执行，触发条件是：当前回调函数列表有效，且没触发过或可以多次触发（stack存在就是可以多次触发），需要注意的是，如果正在触发，也就是firing状态时，触发请求将会被放入stack中等待<br><br>fired没啥好说的，判断回调函数列表是否被触发过<br><br>###小结<br>这个<code>jQuery.Callbacks</code>本质上就是维护一个数组，这个数组中都是函数。一个特点就是可以通过fire方式去挨个执行这些函数，并提供了一些配置来确定执行的过程以及执行的次数。每个Deferred对象将拥有三个Callbacks实例<br><br>##Deferred<br>jQuery的异步控制使用Deferred/Promise，每一个Deferred对象对应一个Promise对象，首先来看看其构造函数<br><br>###构造函数<br>####三个状态，三个操作，三个列表<br>Deferred有三个状态：<br>1. pending<br>2. resolved<br>3. rejected<br><br>pending状态是最初状态，它等待resolve操作或reject操作，使用resolve操作表示成功，将跳转到resolved状态，而使用reject将跳转到rejected状态，这两个转变是不可逆的。另外在pending状态下可以无限次调用notify操作<br><br>事实上，每个操作对应着一系列的回调函数，看一下定义：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -524,17 +465,7 @@ fired: <span class="function"><span class="keyword">function</span><span class="
     [ <span class="string">"reject"</span>, <span class="string">"fail"</span>, jQuery.Callbacks(<span class="string">"once memory"</span>), <span class="string">"rejected"</span> ],
     [ <span class="string">"notify"</span>, <span class="string">"progress"</span>, jQuery.Callbacks(<span class="string">"memory"</span>) ]
 ],
-</pre></td></tr></table></figure>
-
-
-<p>可以看到，这里为resolve、reject、notify这三个操作分别创建了Callbakcs的实例。这里为三个操作的具体定义如下：</p>
-<ol>
-<li>resolve方法，对应的添加回调函数的方法是done，回调函数列表类型是once和memory，运行后状态转变到resolved</li>
-<li>reject方法，对应的添加回调函数的方法是fail，回调函数列表类型是once和memory，运行后状态转变到rejected</li>
-<li>notify方法，对应的添加回调函数的方法为progress，回调函数列表类型是memory，说明可执行多次，执行后不会转变状态</li>
-</ol>
-<p>构造函数下面，会为每一个操作在Promise对象和Deferred对象上生成对应的函数（Promise上是：done、fail、progress。Deferred上是：resolve、reject、notify）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>可以看到，这里为resolve、reject、notify这三个操作分别创建了Callbakcs的实例。这里为三个操作的具体定义如下：<br>1. resolve方法，对应的添加回调函数的方法是done，回调函数列表类型是once和memory，运行后状态转变到resolved<br>2. reject方法，对应的添加回调函数的方法是fail，回调函数列表类型是once和memory，运行后状态转变到rejected<br>3. notify方法，对应的添加回调函数的方法为progress，回调函数列表类型是memory，说明可执行多次，执行后不会转变状态<br><br>构造函数下面，会为每一个操作在Promise对象和Deferred对象上生成对应的函数（Promise上是：done、fail、progress。Deferred上是：resolve、reject、notify）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -596,30 +527,7 @@ jQuery.each( tuples, <span class="function"><span class="keyword">function</span
     <span class="comment">/*为deferred对象添加resolveWith，rejectWith，notifyWith，对应的回调函数列表的fireWith*/</span>
     deferred[ tuple[<span class="number">0</span>] + <span class="string">"With"</span> ] = list.fireWith;
 });
-</pre></td></tr></table></figure>
-
-
-<p>上面的三种操作，只是定义了名称，这里才是真正生成对应函数的地方。jq会为每个Deferred对象生成6个方法：</p>
-<ol>
-<li>resolve</li>
-<li>reject</li>
-<li>notify</li>
-<li>resolveWith</li>
-<li>rejectWith</li>
-<li>notifyWith</li>
-</ol>
-<p>上面三个实际上是直接调用下面三个，只不过加了个默认的参数。下面三个实际上就是对应回调函数列表的fireWith方法。</p>
-<p>同时，这里还会为promise增加三个方法：</p>
-<ol>
-<li>done</li>
-<li>fail</li>
-<li>progress</li>
-</ol>
-<p>这三个方法就是为对应的回调函数列表添加新函数的方法，直接映射到对应回调函数列表的add方法就行了</p>
-<p>另外需要注意一下resolve和reject方法的一次性，实际上也就是在回调函数列表最后加上disable和lock方法</p>
-<h3 id="promise对象">promise对象</h3>
-<p>上面反复说了Promise对象，来看看Promise对象的真正面貌：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>上面的三种操作，只是定义了名称，这里才是真正生成对应函数的地方。jq会为每个Deferred对象生成6个方法：<br>1. resolve<br>2. reject<br>3. notify<br>4. resolveWith<br>5. rejectWith<br>6. notifyWith<br><br>上面三个实际上是直接调用下面三个，只不过加了个默认的参数。下面三个实际上就是对应回调函数列表的fireWith方法。<br><br>同时，这里还会为promise增加三个方法：<br>1. done<br>2. fail<br>3. progress<br><br>这三个方法就是为对应的回调函数列表添加新函数的方法，直接映射到对应回调函数列表的add方法就行了<br><br>另外需要注意一下resolve和reject方法的一次性，实际上也就是在回调函数列表最后加上disable和lock方法<br><br>###promise对象<br>上面反复说了Promise对象，来看看Promise对象的真正面貌：<br><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -682,7 +590,6 @@ jQuery.each( tuples, <span class="function"><span class="keyword">function</span
 <span class="comment">/*将Promise对象的所有方法拷贝给Deferred对象*/</span>
 promise.promise( deferred );
 </pre></td></tr></table></figure>
-
 
 <p>这里可以看到，promise对象提供了几个接口：</p>
 <ol>
@@ -753,16 +660,7 @@ promise.promise( deferred );
         fns = <span class="literal">null</span>;
     }).promise();
 },
-</pre></td></tr></table></figure>
-
-
-<p>这个函数是Deferred的一个非常重要的函数，它实现了一个Deferred链。这个Deferred链的特点是，只有链的头节点是Deferred对象，后面都是Promise对象，这也意味着，只能在头节点触发resolve、reject、notify操作。触发了操作之后，对应的操作会顺着链传递下去，触发了一个节点resolve，执行完毕后，会自动触发下一个节点的resolve，reject和notify同理。</p>
-<p>这里传入的三个函数会分别在当前的Deferred相关操作被触发时执行，如果执行返回的是一个Deferred/Promise对象，获取其Promise对象，新建的Deferred对象将会被链在这个返回的Deferred对象之后。如果返回其他的值，新建的Deferred对象的resolveWith、rejectWith、notifyWith方法会被直接触发，达到链式的效果。</p>
-<h3 id="小结-1">小结</h3>
-<p>这就是jQuery的Deferred/Promise的全貌了。Promise对象实际上是Deferred对象的除去resolve等6个方法的子集。done、fail、progress分别对应一个回调函数列表，这三个方法实际上就是往对应的回调函数列表中插入函数。但then和pipe不相同，它们会新建一个Deferred对象，并构造一个Deferred对象链。这也让jQuery的Deferred/Promise显得不论不类。</p>
-<h2 id="when">when</h2>
-<p>when方法提供了将多个Deferred对象聚集的能力，在when方法中传入一些Deferred对象，返回一个Deferred对象。在参数中的所有Deferred对象都被resolve之后，会resolve这个返回的Deferred对象，如果参数中的Deferred有一个被reject了，那么这个返回的Deferred也会被reject。另外，在参数中的Deferred对象resolve时，返沪ideDeferred也会被notify。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>这个函数是Deferred的一个非常重要的函数，它实现了一个Deferred链。这个Deferred链的特点是，只有链的头节点是Deferred对象，后面都是Promise对象，这也意味着，只能在头节点触发resolve、reject、notify操作。触发了操作之后，对应的操作会顺着链传递下去，触发了一个节点resolve，执行完毕后，会自动触发下一个节点的resolve，reject和notify同理。<br><br>这里传入的三个函数会分别在当前的Deferred相关操作被触发时执行，如果执行返回的是一个Deferred/Promise对象，获取其Promise对象，新建的Deferred对象将会被链在这个返回的Deferred对象之后。如果返回其他的值，新建的Deferred对象的resolveWith、rejectWith、notifyWith方法会被直接触发，达到链式的效果。<br><br>###小结<br>这就是jQuery的Deferred/Promise的全貌了。Promise对象实际上是Deferred对象的除去resolve等6个方法的子集。done、fail、progress分别对应一个回调函数列表，这三个方法实际上就是往对应的回调函数列表中插入函数。但then和pipe不相同，它们会新建一个Deferred对象，并构造一个Deferred对象链。这也让jQuery的Deferred/Promise显得不论不类。<br><br>##when<br>when方法提供了将多个Deferred对象聚集的能力，在when方法中传入一些Deferred对象，返回一个Deferred对象。在参数中的所有Deferred对象都被resolve之后，会resolve这个返回的Deferred对象，如果参数中的Deferred有一个被reject了，那么这个返回的Deferred也会被reject。另外，在参数中的Deferred对象resolve时，返沪ideDeferred也会被notify。<br><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -876,7 +774,6 @@ promise.promise( deferred );
 }
 </pre></td></tr></table></figure>
 
-
 <p>从上面可以看到主要的实现思路就是，新建一个管理Deferred对象，它期望在参数中所有的Deferred被resolve后，执行自己的resolve操作。内部使用了一个计数器remaining，用于表明还有多少个Deferred尚未resolve。当这个计数器变成0时，所有的Deferred都被resolve了，那么这个管理Deferred也可以被resolve了。</p>
 <p>为了维护这个计数器，在每个Deferred的done回调函数列表最后，绑定一个updateFunc函数，这个函数内部会修改remaining，以及判断是应该执行管理Deferred对象的resolve还是notify</p>
 <p>而由于任何一个Deferred被reject的话，管理Deferred都会被reject，所以直接在每一个Deferred的fail回调函数列表上添加管理Deferred的reject方法就行了</p>
@@ -920,7 +817,7 @@ promise.promise( deferred );
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/">服务器数据迁移</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/oracle安装/">oracle安装</a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -929,7 +826,7 @@ promise.promise( deferred );
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/">iptables</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jailkit/">jailkit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opends/">opends</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -938,7 +835,7 @@ promise.promise( deferred );
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 15.00px;">JavaScript</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
+      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 10.00px;">JavaScript</a><a href="/tags/iptables/" style="font-size: 10.00px;">iptables</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/jailkit/" style="font-size: 10.00px;">jailkit</a><a href="/tags/opends/" style="font-size: 10.00px;">opends</a><a href="/tags/oracle/" style="font-size: 10.00px;">oracle</a><a href="/tags/shell/" style="font-size: 10.00px;">shell</a><a href="/tags/tomcat/" style="font-size: 10.00px;">tomcat</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
     </div>
   </div>
 
@@ -947,7 +844,7 @@ promise.promise( deferred );
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">六月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -959,15 +856,11 @@ promise.promise( deferred );
       <ul>
         
           <li>
-            <a href="/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/">使用导航计时监测渲染关键路径</a>
+            <a href="/2014/06/01/迁移-tomcat-and-opends/">迁移 tomcat and OpenDS</a>
           </li>
         
           <li>
-            <a href="/2014/05/21/google-google-adding-interactivity-with-javaScript/">通过JavaScript增加交互性</a>
-          </li>
-        
-          <li>
-            <a href="/2014/05/21/google-render-blocking-css/">CSS的渲染阻塞</a>
+            <a href="/2014/06/01/oracle-在linux上设置自启动/">oracle 在linux上设置自启动</a>
           </li>
         
           <li>
@@ -976,6 +869,10 @@ promise.promise( deferred );
         
           <li>
             <a href="/2014/05/20/google-constructing-the-object-model/">构建对象模型</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/19/google-responsive-design-fundamentals/">响应式Web设计基础</a>
           </li>
         
       </ul>

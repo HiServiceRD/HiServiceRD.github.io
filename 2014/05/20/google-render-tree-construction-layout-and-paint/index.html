@@ -5,15 +5,22 @@
   
   <title>渲染树的构建，布局和绘制 | 海斯维思研发团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="article" property="og:type">
-<meta content="渲染树的构建，布局和绘制" property="og:title">
-<meta content="http://hiservicerd.github.io/2014/05/20/google-render-tree-construction-layout-and-paint/" property="og:url">
-<meta content="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png" property="og:image">
-<meta content="海斯维思研发团队" property="og:site_name">
-<meta content="本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自Google Web Fundamentals
+  <meta name="description" content="本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自Google Web Fundamentals
 CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。
-上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方" property="og:description">
-<meta content="summary" name="twitter:card">
+上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渲染树的构建，布局和绘制">
+<meta property="og:url" content="http://hiservicerd.github.io/2014/05/20/google-render-tree-construction-layout-and-paint/">
+<meta property="og:image" content="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png">
+<meta property="og:site_name" content="海斯维思研发团队">
+<meta property="og:description" content="本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自Google Web Fundamentals
+CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。
+上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="渲染树的构建，布局和绘制">
+<meta name="twitter:description" content="本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自Google Web Fundamentals
+CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。
+上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方">
   
     <link rel="alternative" href="/atom.xml" title="海斯维思研发团队" type="application/atom+xml">
   
@@ -99,7 +106,7 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自<a href="desc: 本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自&lt;a href=&#39;https://developers.google.com/web/fundamentals/documentation/performance/critical-rendering-path/constructing-the-object-model">Google Web Fundamentals</a></p>
+        <p>本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自<a href="desc: 本文主要介绍了渲染树的构建、布局阶段和绘制阶段，翻译自&lt;a href=&#39;https://developers.google.com/web/fundamentals/documentation/performance/critical-rendering-path/constructing-the-object-model" target="_blank">Google Web Fundamentals</a></p>
 <p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
 <p>上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方面：DOM树描述的是页面内容，而CSSOM树则描述的是需要被使用到页面内容上的样式规则，由此可见，他们是相互独立的数据结构。那么我们应当如何去合并这两棵树来让浏览器渲染像素到屏幕呢？</p>
 <h3 id="长话短说">长话短说</h3>
@@ -151,7 +158,6 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-
 <p>上面的页面的body元素包含两个嵌套的div，第一个div（父元素）其节点的宽度为视口宽度的50%，第二个div在第一个div之中，宽度是第一个元素的50%，也就是视口宽的的50%。</p>
 <p>布局阶段输出的是一个盒子模型，它精确地描述了元素在视口中的确切位置和尺寸：所有相对单位都会被转变为屏幕上的绝对像素值，等等</p>
 <p>现在我们知道了哪些元素可见，他们的计算样式，以及他们的几何图形，我们终于能够将这些信息传递给最终阶段。这个阶段将渲染树中的每个节点绘制成屏幕上像素。通常这个阶段叫做绘制阶段（painting）或是光栅化（rasterizing）</p>
@@ -202,11 +208,11 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
     
 <nav id="article-nav">
   
-    <a href="/2014/05/21/google-render-blocking-css/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/06/01/oracle-在linux上设置自启动/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          CSS的渲染阻塞
+          oracle 在linux上设置自启动
         
       </div>
     </a>
@@ -236,7 +242,7 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/">服务器数据迁移</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/oracle安装/">oracle安装</a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -245,7 +251,7 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/">iptables</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jailkit/">jailkit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opends/">opends</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -254,7 +260,7 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 15.00px;">JavaScript</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
+      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 10.00px;">JavaScript</a><a href="/tags/iptables/" style="font-size: 10.00px;">iptables</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/jailkit/" style="font-size: 10.00px;">jailkit</a><a href="/tags/opends/" style="font-size: 10.00px;">opends</a><a href="/tags/oracle/" style="font-size: 10.00px;">oracle</a><a href="/tags/shell/" style="font-size: 10.00px;">shell</a><a href="/tags/tomcat/" style="font-size: 10.00px;">tomcat</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
     </div>
   </div>
 
@@ -263,7 +269,7 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">六月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -275,15 +281,11 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
       <ul>
         
           <li>
-            <a href="/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/">使用导航计时监测渲染关键路径</a>
+            <a href="/2014/06/01/迁移-tomcat-and-opends/">迁移 tomcat and OpenDS</a>
           </li>
         
           <li>
-            <a href="/2014/05/21/google-google-adding-interactivity-with-javaScript/">通过JavaScript增加交互性</a>
-          </li>
-        
-          <li>
-            <a href="/2014/05/21/google-render-blocking-css/">CSS的渲染阻塞</a>
+            <a href="/2014/06/01/oracle-在linux上设置自启动/">oracle 在linux上设置自启动</a>
           </li>
         
           <li>
@@ -292,6 +294,10 @@ CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素
         
           <li>
             <a href="/2014/05/20/google-constructing-the-object-model/">构建对象模型</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/19/google-responsive-design-fundamentals/">响应式Web设计基础</a>
           </li>
         
       </ul>

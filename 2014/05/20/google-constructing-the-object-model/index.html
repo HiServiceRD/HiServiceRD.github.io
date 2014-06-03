@@ -5,18 +5,31 @@
   
   <title>构建对象模型 | 海斯维思研发团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="article" property="og:type">
-<meta content="构建对象模型" property="og:title">
-<meta content="http://hiservicerd.github.io/2014/05/20/google-constructing-the-object-model/" property="og:url">
-<meta content="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" property="og:image">
-<meta content="海斯维思研发团队" property="og:site_name">
-<meta content="本文主要介绍了DOM和CSSOM的构建过程，翻译自Google Web Fundamentals
+  <meta name="description" content="本文主要介绍了DOM和CSSOM的构建过程，翻译自Google Web Fundamentals
 浏览器渲染页面之前会构建DOM树和CSSOM树
 长话短说
 
 字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)
-HTML标记将会被转化为一个文档对象模型（Document Objectenter code h" property="og:description">
-<meta content="summary" name="twitter:card">
+HTML标记将会被转化为一个文档对象模型（Document Objectenter code h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建对象模型">
+<meta property="og:url" content="http://hiservicerd.github.io/2014/05/20/google-constructing-the-object-model/">
+<meta property="og:image" content="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png">
+<meta property="og:site_name" content="海斯维思研发团队">
+<meta property="og:description" content="本文主要介绍了DOM和CSSOM的构建过程，翻译自Google Web Fundamentals
+浏览器渲染页面之前会构建DOM树和CSSOM树
+长话短说
+
+字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)
+HTML标记将会被转化为一个文档对象模型（Document Objectenter code h">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建对象模型">
+<meta name="twitter:description" content="本文主要介绍了DOM和CSSOM的构建过程，翻译自Google Web Fundamentals
+浏览器渲染页面之前会构建DOM树和CSSOM树
+长话短说
+
+字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)
+HTML标记将会被转化为一个文档对象模型（Document Objectenter code h">
   
     <link rel="alternative" href="/atom.xml" title="海斯维思研发团队" type="application/atom+xml">
   
@@ -135,27 +148,7 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
     <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
   <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>其从字节到DOM树的过程如下图所示：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
-<p>具体的过程分为如下几步：</p>
-<ol>
-<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
-<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
-<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
-<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
-</ol>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
-<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
-<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
-<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
-<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
-<h2 id="CSSOM树构建">CSSOM树构建</h2>
-<p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>其从字节到DOM树的过程如下图所示：<br><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"><br><br>具体的过程分为如下几步：<br>1. 转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符<br>2. 标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则<br>3. 对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则<br>4. DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存<br><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"><br><br>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树<br><br>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间<br><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"><br><br>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。<br><br>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了<br><br>##CSSOM树构建<br>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件<br><br><figure class="highlight css"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -166,7 +159,6 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
 <span class="tag">p</span> <span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> none </span></span></span>}
 <span class="tag">img</span> <span class="rules">{ <span class="rule"><span class="attribute">float</span>:<span class="value"> right </span></span></span>}
 </pre></td></tr></table></figure>
-
 
 <p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
 <p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
@@ -239,7 +231,7 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/">服务器数据迁移</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/oracle安装/">oracle安装</a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -248,7 +240,7 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/">iptables</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jailkit/">jailkit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opends/">opends</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -257,7 +249,7 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 15.00px;">JavaScript</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
+      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 10.00px;">JavaScript</a><a href="/tags/iptables/" style="font-size: 10.00px;">iptables</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/jailkit/" style="font-size: 10.00px;">jailkit</a><a href="/tags/opends/" style="font-size: 10.00px;">opends</a><a href="/tags/oracle/" style="font-size: 10.00px;">oracle</a><a href="/tags/shell/" style="font-size: 10.00px;">shell</a><a href="/tags/tomcat/" style="font-size: 10.00px;">tomcat</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
     </div>
   </div>
 
@@ -266,7 +258,7 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">六月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -278,15 +270,11 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
       <ul>
         
           <li>
-            <a href="/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/">使用导航计时监测渲染关键路径</a>
+            <a href="/2014/06/01/迁移-tomcat-and-opends/">迁移 tomcat and OpenDS</a>
           </li>
         
           <li>
-            <a href="/2014/05/21/google-google-adding-interactivity-with-javaScript/">通过JavaScript增加交互性</a>
-          </li>
-        
-          <li>
-            <a href="/2014/05/21/google-render-blocking-css/">CSS的渲染阻塞</a>
+            <a href="/2014/06/01/oracle-在linux上设置自启动/">oracle 在linux上设置自启动</a>
           </li>
         
           <li>
@@ -295,6 +283,10 @@ HTML标记将会被转化为一个文档对象模型（Document Objectenter code
         
           <li>
             <a href="/2014/05/20/google-constructing-the-object-model/">构建对象模型</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/19/google-responsive-design-fundamentals/">响应式Web设计基础</a>
           </li>
         
       </ul>

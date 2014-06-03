@@ -5,13 +5,16 @@
   
   <title>Tag: 响应式 | 海斯维思研发团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="website" property="og:type">
-<meta content="海斯维思研发团队" property="og:title">
-<meta content="http://hiservicerd.github.io/tags/响应式/" property="og:url">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="海斯维思研发团队">
+<meta property="og:url" content="http://hiservicerd.github.io/tags/响应式/">
 <meta property="og:image">
-<meta content="海斯维思研发团队" property="og:site_name">
+<meta property="og:site_name" content="海斯维思研发团队">
 <meta property="og:description">
-<meta content="summary" name="twitter:card">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="海斯维思研发团队">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="海斯维思研发团队" type="application/atom+xml">
   
@@ -115,40 +118,9 @@
 <p>为了提供最佳的用户体验，手机浏览器一般以980px（这个值会可能在不同设备中略有不同）的宽度渲染页面，然后会尝试去减少文字大小以及缩放内容到屏幕大小来让内容看起来更加适于阅读。对于用户来说，这也意味着字体的大小可能会不一致，用户需要通过双击或手势缩放来放大网页，这样才能看到内容并与之交互</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>我们可以使用meta标签来指定viewport信息，这里<code>width=device-width</code>表明页面将会以设备的像素大小来适配屏幕宽度。这样无论是在小屏幕手机上还是大屏幕显示器上，页面都可以为不同的屏幕尺寸进行内容的回流</p>
-<p>有一些浏览器会在横竖屏切换时保持页面宽度不变，他们仅仅会进行缩放，而不会让内容回流来适应屏幕。增加属性<code>initial-scale=1</code>告诉浏览器去建立CSS像素和设备像素的1:1对等关系，而无视设备的方向，这样网页就能适应横竖屏的宽度变化了</p>
-<p><strong>使用一个逗号去区分属性保持老式浏览器也能获取到值</strong></p>
-<h3 id="确定一个可访问的视口">确定一个可访问的视口</h3>
-<p>除了使用<code>initial-scale</code>，也可以在视口控制信息中加入<code>minimum-scale</code>,<code>maximum-scale</code>和<code>user-scalable</code>等属性。这些值将限制用户缩放视口的比例，可能会降低网页的可访问性</p>
-<h2 id="使得内容适配视口">使得内容适配视口</h2>
-<p>无论是手机还是桌面电脑，用户通常是垂直滚动页。也就是说，强迫用户水平滚动页面或者必须缩放才能看到整个页面，都会降低用户体验</p>
-<h3 id="长话短说-1">长话短说</h3>
-<ol>
-<li>不要为元素设定大且固定的尺寸</li>
-<li>内容的展现不应该依赖于一个特定的视口宽度</li>
-<li>使用CSS的媒体查询来为不同的屏幕尺寸提供不同的样式</li>
-</ol>
-<h3 id="最佳实践-1">最佳实践</h3>
-<p>在开发手机网页中使用<code>meta viewport</code>元素进行开发时，很容易导致页面内容无法匹配某些特定的视口。比如，一张图片能够在较宽呃视口中完全显示，但在较窄的视口中则必须要水平滚动才能看到右边的部分。我们需要调整页面内容来适应视口的宽度，这样它们就不需要水平滚动了</p>
-<p>由于不同设备基于CSS像素的尺寸和宽度不同（手机和平板之间不同，甚至不同的手机之间也不同），所以页面内容不能只依赖于一个特定的视口宽度。</p>
-<p>如果元素设定了较大的绝对宽度，元素在窄设备中将由于太宽而只能显示一部分。取而代之，考虑使用相对宽度（如<code>width: 100%</code>）</p>
-<h2 id="为响应式使用CSS的媒体查询">为响应式使用CSS的媒体查询</h2>
-<p>媒体查询其实能在CSS样式中使用的过滤器，他们能够很轻易的根据设备的特点来改变渲染网页内容的CSS样式，这些特点包括设备的显示类型，宽高，横竖屏甚至是分辨率</p>
-<h3 id="长话短说-2">长话短说</h3>
-<ol>
-<li>媒体查询可以根据设备特点来应用样式</li>
-<li>使用<code>min-width</code>而不是<code>min-device-width</code>来保证更多情况下能有好的体验</li>
-<li>为元素使用相对大小防止破坏布局</li>
-</ol>
-<h3 id="最佳实践-2">最佳实践</h3>
-<p>比如，我们可以通过这样的方式加入打印时需要的样式：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br>我们可以使用meta标签来指定viewport信息，这里<code>width=device-width</code>表明页面将会以设备的像素大小来适配屏幕宽度。这样无论是在小屏幕手机上还是大屏幕显示器上，页面都可以为不同的屏幕尺寸进行内容的回流<br><br>有一些浏览器会在横竖屏切换时保持页面宽度不变，他们仅仅会进行缩放，而不会让内容回流来适应屏幕。增加属性<code>initial-scale=1</code>告诉浏览器去建立CSS像素和设备像素的1:1对等关系，而无视设备的方向，这样网页就能适应横竖屏的宽度变化了<br><br><strong>使用一个逗号去区分属性保持老式浏览器也能获取到值</strong><br><br>###确定一个可访问的视口<br>除了使用<code>initial-scale</code>，也可以在视口控制信息中加入<code>minimum-scale</code>,<code>maximum-scale</code>和<code>user-scalable</code>等属性。这些值将限制用户缩放视口的比例，可能会降低网页的可访问性<br><br>##使得内容适配视口<br>无论是手机还是桌面电脑，用户通常是垂直滚动页。也就是说，强迫用户水平滚动页面或者必须缩放才能看到整个页面，都会降低用户体验<br><br>###长话短说<br>1. 不要为元素设定大且固定的尺寸<br>2. 内容的展现不应该依赖于一个特定的视口宽度<br>3. 使用CSS的媒体查询来为不同的屏幕尺寸提供不同的样式<br><br>###最佳实践<br>在开发手机网页中使用<code>meta viewport</code>元素进行开发时，很容易导致页面内容无法匹配某些特定的视口。比如，一张图片能够在较宽呃视口中完全显示，但在较窄的视口中则必须要水平滚动才能看到右边的部分。我们需要调整页面内容来适应视口的宽度，这样它们就不需要水平滚动了<br><br>由于不同设备基于CSS像素的尺寸和宽度不同（手机和平板之间不同，甚至不同的手机之间也不同），所以页面内容不能只依赖于一个特定的视口宽度。<br><br>如果元素设定了较大的绝对宽度，元素在窄设备中将由于太宽而只能显示一部分。取而代之，考虑使用相对宽度（如<code>width: 100%</code>）<br><br>##为响应式使用CSS的媒体查询<br>媒体查询其实能在CSS样式中使用的过滤器，他们能够很轻易的根据设备的特点来改变渲染网页内容的CSS样式，这些特点包括设备的显示类型，宽高，横竖屏甚至是分辨率<br><br>###长话短说<br>1. 媒体查询可以根据设备特点来应用样式<br>2. 使用<code>min-width</code>而不是<code>min-device-width</code>来保证更多情况下能有好的体验<br>3. 为元素使用相对大小防止破坏布局<br><br>###最佳实践<br>比如，我们可以通过这样的方式加入打印时需要的样式：<br><figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
 </pre></td></tr></table></figure>
-
 
 <p>除了在样式的link元素中增加<code>media</code>属性，还有两种其他方法在CSS文件在中使用媒体查询：<code>@media</code>和<code>@import</code>。处于效率考虑，推荐使用前两种方式</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre>1
@@ -163,7 +135,6 @@
 <span class="at_rule">@<span class="keyword">import</span> <span class="function">url(print.css)</span> print</span>;
 </pre></td></tr></table></figure>
 
-
 <p>媒体查询中的逻辑不会互相冲突，并且符合媒体查询条件而引入的CSS样式也会根据CSS优先级标准作用与页面中</p>
 <h3 id="根据视口大小使用媒体查询">根据视口大小使用媒体查询</h3>
 <p>媒体查询为创建响应式的体验成为可能，通过媒体查询，我们能为小屏幕，大屏幕，或者两者之间来提供特定的样式表。媒体查询的语法允许我们根据设备的特点来创建匹配规则：</p>
@@ -174,7 +145,6 @@
   <span class="comment">/* CSS Rules used when query matches */</span>
 }
 </pre></td></tr></table></figure>
-
 
 <p>媒体查询提供了很多查询条件供我们使用，其中我们在响应式web设计中用的最多是<code>min-width</code>、<code>max-width</code>、<code>min-height</code>、<code>max-height</code></p>
 <table>
@@ -220,7 +190,7 @@
 <p>另外使用相对单位允许浏览器在用户缩放网页时重新渲染整个页面，而不会增加一个水平滚动条。</p>
 <h2 id="如何选择断点">如何选择断点</h2>
 <p>尽管哦我们可以考虑基于设备类型来定义断点，但需要谨慎使用这种方式。基于特定的的设备、产品、品牌名称或操作系统定义断点，就算今天能正常使用，以后也会出现维护上的噩梦。取而代之的是，网页内容应该根据其自身来决定如何在容器中进行布局。</p>
-<h3 id="长话短说-3">长话短说</h3>
+<h3 id="长话短说-1">长话短说</h3>
 <ol>
 <li>基于网页内容创建断点，永远不要基于特定的设备、产品或品牌</li>
 <li>以移动先行的思想设计网页，然后随着屏幕可用大小增加而渐进增强用户体验</li>
@@ -271,7 +241,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/">服务器数据迁移</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器数据迁移/oracle安装/">oracle安装</a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -280,7 +250,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/">iptables</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jailkit/">jailkit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opends/">opends</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -289,7 +259,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 15.00px;">JavaScript</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
+      <a href="/tags/CSS/" style="font-size: 20.00px;">CSS</a><a href="/tags/HTML/" style="font-size: 20.00px;">HTML</a><a href="/tags/JavaScript/" style="font-size: 10.00px;">JavaScript</a><a href="/tags/iptables/" style="font-size: 10.00px;">iptables</a><a href="/tags/jQuery/" style="font-size: 10.00px;">jQuery</a><a href="/tags/jailkit/" style="font-size: 10.00px;">jailkit</a><a href="/tags/opends/" style="font-size: 10.00px;">opends</a><a href="/tags/oracle/" style="font-size: 10.00px;">oracle</a><a href="/tags/shell/" style="font-size: 10.00px;">shell</a><a href="/tags/tomcat/" style="font-size: 10.00px;">tomcat</a><a href="/tags/响应式/" style="font-size: 10.00px;">响应式</a>
     </div>
   </div>
 
@@ -298,7 +268,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">六月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -310,15 +280,11 @@
       <ul>
         
           <li>
-            <a href="/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/">使用导航计时监测渲染关键路径</a>
+            <a href="/2014/06/01/迁移-tomcat-and-opends/">迁移 tomcat and OpenDS</a>
           </li>
         
           <li>
-            <a href="/2014/05/21/google-google-adding-interactivity-with-javaScript/">通过JavaScript增加交互性</a>
-          </li>
-        
-          <li>
-            <a href="/2014/05/21/google-render-blocking-css/">CSS的渲染阻塞</a>
+            <a href="/2014/06/01/oracle-在linux上设置自启动/">oracle 在linux上设置自启动</a>
           </li>
         
           <li>
@@ -327,6 +293,10 @@
         
           <li>
             <a href="/2014/05/20/google-constructing-the-object-model/">构建对象模型</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/19/google-responsive-design-fundamentals/">响应式Web设计基础</a>
           </li>
         
       </ul>
